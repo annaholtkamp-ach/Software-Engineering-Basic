@@ -11,7 +11,7 @@ flowchart LR
 
   %% Server layer
   subgraph Server["Voice platform (server side)"]
-    api["FastAPI server (HTTP API)"]
+    api["HTTP API"]
     logic["Business logic and integrations"]
     voiceAI["Voice AI engine (ASR, NLU, TTS)"]
   end
