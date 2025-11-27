@@ -66,6 +66,65 @@ flowchart LR
   api --> channel --> customer
 ```
 
+Simplified but clearer client server database structure + observability 
+
+```mermaid
+flowchart LR
+
+  %% Client layer
+  subgraph Client
+    customer["Customer"]
+    channel["Voice channel or partner app"]
+  end
+
+  %% Server layer
+  subgraph Server["Voice platform (server side)"]
+    api["HTTP or gRPC API"]
+    voiceAI["Voice AI engine (ASR, NLU, TTS)"]
+    logic["Business logic and integrations"]
+  end
+
+  %% Data layer
+  subgraph Data["Databases and storage"]
+    metaDB["Metadata database"]
+    audioStore["Audio file storage"]
+    featureStore["Feature store"]
+  end
+
+  %% Observability layer
+  subgraph Observability["Monitoring and observability"]
+    telemetry["Telemetry collector"]
+    dashboards["Dashboards and alerts"]
+  end
+
+  telemetry --> dashboards
+
+  %% Client to server
+  customer --> channel --> api
+
+  %% Inside server
+  api --> voiceAI
+  api --> logic
+  voiceAI --> api
+  logic --> api
+
+  %% Server to data
+  api --> metaDB
+  api --> audioStore
+  voiceAI --> featureStore
+
+  %% Responses back to client
+  api --> channel --> customer
+
+  %% Telemetry from server and data
+  api --> telemetry
+  voiceAI --> telemetry
+  logic --> telemetry
+  metaDB --> telemetry
+  audioStore --> telemetry
+  featureStore --> telemetry
+```
+
 Whithout AI Engine specification 
 ```mermaid
 flowchart LR
