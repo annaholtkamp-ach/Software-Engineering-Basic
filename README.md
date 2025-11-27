@@ -1,6 +1,7 @@
 # Software-Engineering-Basic
 Master Course Software Engineering Basic
 
+```mermaid
 flowchart LR
   classDef comp fill:#f9f9f9,stroke:#333,stroke-width:1px,rx:4,ry:4;
 
@@ -64,3 +65,4 @@ flowchart LR
   voiceEngine --> otel;
   governance --> otel;
   otel --> dash0;
+```
