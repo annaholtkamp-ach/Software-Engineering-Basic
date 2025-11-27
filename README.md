@@ -124,6 +124,77 @@ flowchart LR
   audioStore --> telemetry
   featureStore --> telemetry
 ```
+WIth improved client 
+```mermaid
+flowchart LR
+
+  %% User / actor
+  customer["Customer (human)"]
+
+  %% Client layer
+  subgraph Client["Client"]
+    voiceApp["Voice channel or partner app"]
+    liteAgent["On-device lite voice agent\n(ASR / NLU / offline queue)"]
+  end
+
+  %% Server layer
+  subgraph Server["Voice platform (server side)"]
+    api["HTTP or gRPC API"]
+    logic["Business logic and integrations"]
+    voiceAI["Voice AI engine (ASR, NLU, TTS)"]
+  end
+
+  %% Data layer
+  subgraph Data["Databases and storage"]
+    metaDB["Metadata database"]
+    audioStore["Audio file storage"]
+    featureStore["Feature store"]
+  end
+
+  %% Observability layer
+  subgraph Observability["Monitoring and observability"]
+    telemetry["Telemetry collector"]
+    dashboards["Dashboards and alerts"]
+  end
+
+  telemetry --> dashboards
+
+  %% Customer <-> client interaction (not network between clients)
+  customer --> voiceApp
+  voiceApp --> customer
+
+  %% Client internals
+  voiceApp --> liteAgent
+  liteAgent --> voiceApp
+
+  %% Client to server
+  voiceApp --> api
+  liteAgent --> api
+
+  %% Inside server
+  api --> logic
+  api --> voiceAI
+  logic --> api
+  voiceAI --> api
+
+  %% Server to data
+  api --> metaDB
+  api --> audioStore
+  voiceAI --> featureStore
+
+  %% Response back to client and user
+  api --> voiceApp
+  voiceApp --> customer
+
+  %% Telemetry from server and data
+  api --> telemetry
+  logic --> telemetry
+  voiceAI --> telemetry
+  metaDB --> telemetry
+  audioStore --> telemetry
+  featureStore --> telemetry
+```  
+
 With API Specifications 
 
 ```mermaid
