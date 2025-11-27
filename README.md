@@ -1,6 +1,29 @@
 # Software-Engineering-Basic
 Master Course Software Engineering Basic
 
+Very simplified version 
+```mermaid
+flowchart LR
+
+  customer["Customer"]
+  channel["Voice channel or partner app"]
+  backend["Voice platform backend"]
+  voiceAI["Voice AI engine (ASR, NLU, TTS)"]
+  apis["Partner and backend APIs"]
+  storage["Data and feature storage"]
+  observability["Monitoring and observability"]
+
+  customer --> channel
+  channel --> backend
+  backend --> voiceAI
+  voiceAI --> backend
+  backend --> apis
+  backend --> storage
+  backend --> observability
+  voiceAI --> channel
+  channel --> customer
+```
+
 Whithout AI Engine specification 
 ```mermaid
 flowchart LR
