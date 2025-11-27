@@ -128,13 +128,10 @@ WIth improved client
 ```mermaid
 flowchart LR
 
-  %% User / actor
-  customer["Customer (human)"]
-
   %% Client layer
   subgraph Client["Client"]
     voiceApp["Voice channel or partner app"]
-    liteAgent["On-device lite voice agent\n(ASR / NLU / offline queue)"]
+    liteAgent["On-device lite voice agent (optional)"]
   end
 
   %% Server layer
@@ -159,10 +156,6 @@ flowchart LR
 
   telemetry --> dashboards
 
-  %% Customer <-> client interaction (not network between clients)
-  customer --> voiceApp
-  voiceApp --> customer
-
   %% Client internals
   voiceApp --> liteAgent
   liteAgent --> voiceApp
@@ -182,9 +175,8 @@ flowchart LR
   api --> audioStore
   voiceAI --> featureStore
 
-  %% Response back to client and user
+  %% Response back to client
   api --> voiceApp
-  voiceApp --> customer
 
   %% Telemetry from server and data
   api --> telemetry
