@@ -124,6 +124,80 @@ flowchart LR
   audioStore --> telemetry
   featureStore --> telemetry
 ```
+With API Specifications 
+
+```mermaid
+flowchart LR
+
+  %% Client layer
+  subgraph Client
+    customer["Customer"]
+    channel["Voice channel or partner app"]
+  end
+
+  %% Server layer
+  subgraph Server["Voice platform (server side)"]
+    api["HTTP or gRPC API"]
+    voiceAI["Voice AI engine (ASR, NLU, TTS)"]
+    logic["Business logic and integrations"]
+  end
+
+  %% Data layer
+  subgraph Data["Databases and storage"]
+    metaDB["Metadata database"]
+    audioStore["Audio file storage"]
+    featureStore["Feature store"]
+  end
+
+  %% Observability layer
+  subgraph Observability["Monitoring and observability"]
+    telemetry["Telemetry collector"]
+    dashboards["Dashboards and alerts"]
+  end
+
+  telemetry --> dashboards
+
+  %% Public API endpoints
+  subgraph API_Endpoints["Public API endpoints"]
+    epIngest["POST /api/v1/voice/ingest"]
+    epGovernance["POST /api/v1/voice/governance"]
+    epInteract["POST /api/v1/voice/interaction"]
+    epRecording["GET /api/v1/voice/recordings/{id}"]
+    epHealth["GET /api/v1/health"]
+  end
+
+  %% Client to server
+  customer --> channel --> api
+
+  %% Inside server
+  api --> voiceAI
+  api --> logic
+  voiceAI --> api
+  logic --> api
+
+  %% Server to data
+  api --> metaDB
+  api --> audioStore
+  voiceAI --> featureStore
+
+  %% Responses back to client
+  api --> channel --> customer
+
+  %% Telemetry from server and data
+  api --> telemetry
+  voiceAI --> telemetry
+  logic --> telemetry
+  metaDB --> telemetry
+  audioStore --> telemetry
+  featureStore --> telemetry
+
+  %% Endpoints mapped to the main API component
+  epIngest --> api
+  epGovernance --> api
+  epInteract --> api
+  epRecording --> api
+  epHealth --> api
+```
 
 Whithout AI Engine specification 
 ```mermaid
