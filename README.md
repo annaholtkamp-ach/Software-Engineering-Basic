@@ -1,5 +1,60 @@
 # Software-Engineering-Basic
-Master Course Software Engineering Basic
+## FINAL
+WIth improved client 
+```mermaid
+flowchart LR
+
+  %% Client layer
+  subgraph Client["Client"]
+    voiceApp["Voice channel or partner app"]
+  end
+
+  %% Server layer
+  subgraph Server["Voice platform (server side)"]
+    api["FastAPI server (HTTP API)"]
+    logic["Business logic and integrations"]
+    voiceAI["Voice AI engine (ASR, NLU, TTS)"]
+  end
+
+  %% Data layer
+  subgraph Data["Databases and storage"]
+    metaDB["Metadata database"]
+    audioStore["Audio file storage"]
+    featureStore["Feature store"]
+  end
+
+  %% Observability layer
+  subgraph Observability["Monitoring and observability"]
+    telemetry["Telemetry collector"]
+    dashboards["Dashboards and alerts"]
+  end
+
+  telemetry --> dashboards
+
+  %% Client to server
+  voiceApp --> api
+  api --> voiceApp
+
+  %% Inside server
+  api --> logic
+  api --> voiceAI
+  logic --> api
+  voiceAI --> api
+
+  %% Server to data
+  api --> metaDB
+  api --> audioStore
+  voiceAI --> featureStore
+
+  %% Telemetry from server and data
+  api --> telemetry
+  logic --> telemetry
+  voiceAI --> telemetry
+  metaDB --> telemetry
+  audioStore --> telemetry
+  featureStore --> telemetry
+```  
+
 
 Very simplified version 
 ```mermaid
